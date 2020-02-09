@@ -32,8 +32,9 @@ void Game::run()
 		update();
 		render();
 	}
-
 }
+
+/////////////////////////////////////////////////////////
 
 typedef struct
 {
@@ -59,6 +60,8 @@ GLubyte triangles[36] = {
 		1,7,3
 };
 
+/////////////////////////////////////////////////////////
+
 /* Variable to hold the VBO identifier and shader data */
 GLuint	index, //Index to draw
 		vsid, //Vertex Shader ID
@@ -68,6 +71,7 @@ GLuint	index, //Index to draw
 		positionID, //Position ID
 		colorID; // Color ID
 
+/////////////////////////////////////////////////////////
 
 void Game::initialize()
 {
@@ -203,7 +207,7 @@ void Game::initialize()
 		"in vec4 color;"
 		"out vec4 fColor;"
 		"void main() {"
-		"	fColor = color + vec4(0.0f, 1.0f, 0.0f, 1.0f);"
+		"	fColor = color + vec4(0.0f, 0.5f, 0.0f, 1.0f);"
 		"}"; //Fragment Shader Src
 
 	DEBUG_MSG("Setting Up Fragment Shader");
@@ -232,7 +236,7 @@ void Game::initialize()
 	//Check is Shader Linked
 	glGetProgramiv(progID, GL_LINK_STATUS, &isLinked);
 
-	if (isLinked == 1) {
+	if (isLinked) {
 		DEBUG_MSG("Shader Linked");
 	}
 	else
@@ -249,6 +253,42 @@ void Game::initialize()
 	positionID = glGetAttribLocation(progID, "sv_position");
 	colorID = glGetAttribLocation(progID, "sv_color");
 }
+
+/////////////////////////////////////////////////////////
+
+const char* Game::loadShader(std::string const& t_fileSrc)
+try
+{
+	// Open our file
+	std::ifstream inputStream{ t_fileSrc };
+
+	// If error opening file, throw exception
+	if (!inputStream.is_open())
+	{
+		std::string msg{ "ERROR while opening shader file: " + t_fileSrc };
+		throw std::exception(msg.c_str());
+	}
+
+	std::string shader;
+	std::string line;
+
+	// Read each line of file into our shader string
+	while (std::getline(inputStream, line))
+	{
+		shader += line;
+	}
+
+	// Close our file
+	inputStream.close();
+
+	return shader.c_str();
+}
+catch (const std::exception& e)
+{
+	std::cout << e.what();
+}
+
+/////////////////////////////////////////////////////////
 
 void Game::update()
 {
@@ -426,6 +466,8 @@ void Game::update()
 
 }
 
+/////////////////////////////////////////////////////////
+
 void Game::render()
 {
 
@@ -462,6 +504,8 @@ void Game::render()
 
 }
 
+/////////////////////////////////////////////////////////
+
 void Game::unload()
 {
 #if (DEBUG >= 2)
@@ -470,4 +514,3 @@ void Game::unload()
 	glDeleteProgram(progID);
 	glDeleteBuffers(1, &vbo);
 }
-

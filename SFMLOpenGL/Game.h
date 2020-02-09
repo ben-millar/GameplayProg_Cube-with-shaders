@@ -4,6 +4,7 @@
 #include <Debug.h>
 
 #include <iostream>
+#include <fstream>
 #include <GL/glew.h>
 #include <GL/wglew.h>
 #include <SFML/Window.hpp>
@@ -22,6 +23,7 @@ private:
 	sf::Window window;
 	bool isRunning = false;
 	void initialize();
+	const char* loadShader(std::string const& t_fileSrc);
 	void update();
 	void render();
 	void unload();
