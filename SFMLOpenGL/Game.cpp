@@ -174,15 +174,10 @@ void Game::initialize()
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLubyte) * 36, triangles, GL_DYNAMIC_DRAW);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-	/* Vertex Shader which would normally be loaded from an external file */
-	const char* vs_src = "#version 400\n\r"
-		"in vec4 sv_position;"
-		"in vec4 sv_color;"
-		"out vec4 color;"
-		"void main() {"
-		"	color = sv_color;"
-		"	gl_Position = sv_position;"
-		"}"; //Vertex Shader Src
+	/* Vertex Shader */
+	std::string vs_str;
+	loadShader("vert_shader.phil", vs_str);
+	const char* vs_src = vs_str.c_str();
 
 	DEBUG_MSG("Setting Up Vertex Shader");
 
@@ -202,13 +197,10 @@ void Game::initialize()
 		DEBUG_MSG("ERROR: Vertex Shader Compilation Error");
 	}
 
-	/* Fragment Shader which would normally be loaded from an external file */
-	const char* fs_src = "#version 400\n\r"
-		"in vec4 color;"
-		"out vec4 fColor;"
-		"void main() {"
-		"	fColor = color + vec4(0.0f, 0.5f, 0.0f, 1.0f);"
-		"}"; //Fragment Shader Src
+	/* Fragment Shader */
+	std::string fs_str;
+	loadShader("frag_shader.phil", fs_str); //Fragment Shader Src
+	const char* fs_src{ fs_str.c_str() };
 
 	DEBUG_MSG("Setting Up Fragment Shader");
 
@@ -256,7 +248,7 @@ void Game::initialize()
 
 /////////////////////////////////////////////////////////
 
-const char* Game::loadShader(std::string const& t_fileSrc)
+void Game::loadShader(std::string const& t_fileSrc, std::string& t_dest)
 try
 {
 	// Open our file
@@ -269,19 +261,19 @@ try
 		throw std::exception(msg.c_str());
 	}
 
-	std::string shader;
+	// Clear out the destination string
+	t_dest.clear();
+
 	std::string line;
 
 	// Read each line of file into our shader string
 	while (std::getline(inputStream, line))
 	{
-		shader += line;
+		t_dest += std::string(line + "\n");
 	}
 
 	// Close our file
 	inputStream.close();
-
-	return shader.c_str();
 }
 catch (const std::exception& e)
 {

@@ -23,7 +23,7 @@ private:
 	sf::Window window;
 	bool isRunning = false;
 	void initialize();
-	const char* loadShader(std::string const& t_fileSrc);
+	void loadShader(std::string const& t_fileSrc, std::string& t_dest);
 	void update();
 	void render();
 	void unload();
