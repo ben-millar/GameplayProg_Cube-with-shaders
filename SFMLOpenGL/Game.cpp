@@ -496,15 +496,20 @@ void Game::render()
 
 
 	// Generate sin wave
-	float sin{ m_mag * sinf(m_theta * (3.14159/180.0f)) };
+	float sin_r{ sinf(r_theta * DEG_TO_RAD) };
+	float sin_g{ sinf(g_theta * DEG_TO_RAD) };
+	float sin_b{ sinf(b_theta * DEG_TO_RAD) };
 
-	(m_theta < 360.0f) ? m_theta += 0.5f : m_theta = 0.0f;
+	(r_theta < 360.0f) ? r_theta += 0.1f : r_theta = 0.0f;
+	(g_theta < 360.0f) ? g_theta += 0.1f : g_theta = 0.0f;
+	(b_theta < 360.0f) ? b_theta += 0.1f : b_theta = 0.0f;
 
 	std::cout << m_r << std::endl;
 
-	m_r = 0.05f * (sin + m_mag);
-	m_g = 0.05f * (sin + m_mag);
-	m_b = 0.05f * (sin + m_mag);
+	// Normalise to the range 0 - 1
+	m_r = (1 + sin_r) / 2.0f;
+	m_g = (1 + sin_g) / 2.0f;
+	m_b = (1 + sin_b) / 2.0f;
 
 	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_BYTE, (char*)NULL + 0);
 
