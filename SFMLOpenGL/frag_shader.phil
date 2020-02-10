@@ -1,6 +1,9 @@
 #version 400
 in vec4 color;
 out vec4 fColor;
+
+uniform vec3 rainbow;
+
 void main() {
-	fColor = color + vec4(0.0f, 0.5f, 0.0f, 1.0f);
-	}
+	fColor = vec4(rainbow,0.5);
+}

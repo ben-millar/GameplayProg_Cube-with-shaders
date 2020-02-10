@@ -490,7 +490,25 @@ void Game::render()
 	glEnableVertexAttribArray(positionID);
 	glEnableVertexAttribArray(colorID);
 
+	glUseProgram(progID); // Where program is your shader program
+	GLint uniform = glGetUniformLocation(progID, "rainbow");
+	glUniform3f(uniform, m_r, m_g, m_b);
+
+
+	// Generate sin wave
+	float sin{ m_mag * sinf(m_theta * (3.14159/180.0f)) };
+
+	(m_theta < 360.0f) ? m_theta += 0.5f : m_theta = 0.0f;
+
+	std::cout << m_r << std::endl;
+
+	m_r = 0.05f * (sin + m_mag);
+	m_g = 0.05f * (sin + m_mag);
+	m_b = 0.05f * (sin + m_mag);
+
 	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_BYTE, (char*)NULL + 0);
+
+	glUseProgram(0);
 
 	window.display();
 

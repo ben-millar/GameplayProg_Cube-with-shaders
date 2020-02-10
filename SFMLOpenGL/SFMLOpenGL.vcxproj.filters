@@ -44,5 +44,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md" />
+    <None Include="frag_shader.phil">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="vert_shader.phil">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

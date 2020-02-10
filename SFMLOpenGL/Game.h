@@ -31,6 +31,11 @@ private:
 	sf::Clock clock;
 	sf::Time elapsed;
 
+	float m_r{ 0.0f }, m_g{ 0.25f }, m_b{ 0.5f };
+
+	float m_theta{ 0.0f };
+	int m_mag{ 10 };
+
 	float rotationAngle = 0.0f;
 };
 
